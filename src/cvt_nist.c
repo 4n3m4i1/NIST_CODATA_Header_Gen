@@ -2,7 +2,7 @@
 #include <stdlib.h> // strtod and strtold
 
 //#define RUN_ONE_LINE_ONLY
-
+#define INTELLISENSE_COMMENT_VAL
 
 #define MAX_STR_INPUT_SIZE  256
 
@@ -217,7 +217,17 @@ void extract_string_values(char *src, char *name, char *val, char *uncert, char 
 
 
 void write_vals_2_file(FILE *file_out, char *dtype, char *name, char *val, char *uncert, char *uni){
-    fprintf(file_out, "\t%s %s = %s;\t// %s Uncertainty: %s\n",
+#ifdef INTELLISENSE_COMMENT_VAL
+    //fprintf(file_out, "\t// %s %s\n\t%s %s = %s; // %s    Uncertainty: %s\n",
+    //        val, uni, dtype, name, val, uni, uncert);
+
+    fprintf(file_out, "\t%s %s = %s;\t// %s%s    Uncertainty: %s\n",
+            dtype, name ,val, val, uni, uncert
+        );
+
+#else
+    fprintf(file_out, "\t%s %s = %s;\t// %s    Uncertainty: %s\n",
             dtype, name ,val, uni, uncert
         );
+#endif
 }
