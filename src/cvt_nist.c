@@ -111,10 +111,25 @@ void extract_string_values(char *src, char *name, char *val, char *uncert, char 
             break;
         } else {
             // Generic Character
-            if(src[offset] == ' ' || src[offset] == '-') *(name++) = '_';
-            else *(name++) = to_upper(src[offset]);
+            if( src[offset] == ' ' || 
+                src[offset] == '-' || 
+                src[offset] == '.' || 
+                src[offset] == '/' )
+            { 
+                *(name++) = '_'; 
+                chars_till_eq--;
+            }
+            
+            else if(
+                src[offset] == ')' ||
+                src[offset] == '(' ||
+                src[offset] == ',');
+            
+            else {
+                *(name++) = to_upper(src[offset]);
+                chars_till_eq--;    
+            }
             offset++;
-            chars_till_eq--;
         }
     }
 
